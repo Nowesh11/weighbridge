@@ -2,7 +2,7 @@
 node_modules
 .pnp
 .pnp.js
-.gitignore
+
 
 # testing
 coverage
@@ -45,3 +45,5 @@ logs
 .vscode
 *.swp
 Thumbs.db
+
+.gitignore
