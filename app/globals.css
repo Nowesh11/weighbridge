@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: var(--barlow-condensed);
+  --font-body: var(--inter);
+  --font-mono: var(--jetbrains-mono);
+}
+
+html,
+body {
+  background-color: #EEF1F4;
+  color: #1B1F27;
+}
+
+/* ---- Screen-only chrome, hidden entirely on print ---- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+}
+
+
+@page {
+  size: 220mm 140mm;
+  margin: 0;
+}
+
+.receipt-print-area {
+  width: 220mm;
+  height: 140mm;
+}
+
+@media print {
+  html, body {
+    width: 220mm;
+    height: 140mm;
+  }
+
+
+  body * {
+    visibility: hidden;
+  }
+  .receipt-print-area,
+  .receipt-print-area * {
+    visibility: visible;
+  }
+  .receipt-print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 220mm;
+    height: 140mm;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+
+
+.sprocket-rail {
+  background-image: radial-gradient(circle, #C7CDD6 2.6px, transparent 2.7px);
+  background-size: 100% 9mm;
+  background-position: center top;
+}
+@media print {
+  .sprocket-rail {
+    display: none !important;
+  }
+}

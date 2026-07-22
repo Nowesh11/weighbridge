@@ -1,0 +1,57 @@
+// Prisma schema — Weighbridge Ticket System
+// Datasource is Postgres (Neon-compatible). Swap provider/url for another SQL db if needed.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum TransType {
+  PURCHASE
+  SALES
+  TRANSFER
+}
+
+model Receipt {
+  id            String     @id @default(cuid())
+
+  // Ticket identity
+  serialNo      String     @unique
+  docketDate    DateTime   @default(now())
+
+  // Parties
+  vehicleNo     String
+  partner       String?
+  driverName    String?
+  driverIc      String?
+  doNo          String?
+  transType     TransType  @default(PURCHASE)
+  transporter   String?
+
+  // Goods
+  product       String
+
+  // Weighing
+  timeIn        DateTime
+  timeOut       DateTime?
+  firstWeight   Float
+  secondWeight  Float
+  nettWeight    Float
+
+  // Misc
+  remarks       String?
+  weighingBy    String?
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([vehicleNo])
+  @@index([docketDate])
+  @@index([product])
+  @@index([serialNo])
+}
