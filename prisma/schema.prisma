@@ -1,5 +1,4 @@
-// Prisma schema — Weighbridge Ticket System
-// Datasource is Postgres (Neon-compatible). Swap provider/url for another SQL db if needed.
+
 
 generator client {
   provider = "prisma-client-js"
