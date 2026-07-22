@@ -1,4 +1,5 @@
-
+// Prisma schema — Weighbridge Ticket System
+// Datasource is Postgres (Neon-compatible). Swap provider/url for another SQL db if needed.
 
 generator client {
   provider = "prisma-client-js"
@@ -29,6 +30,7 @@ model Receipt {
   driverName    String?
   driverIc      String?
   doNo          String?
+  poNo          String?
   transType     TransType  @default(PURCHASE)
   transporter   String?
 
@@ -41,6 +43,14 @@ model Receipt {
   firstWeight   Float
   secondWeight  Float
   nettWeight    Float
+
+  // Pricing (computed from nettWeight, unitPrice and gstRate — stored so
+  // records and search/reporting don't need to recompute from scratch)
+  unitPrice     Float      @default(0)
+  amount        Float      @default(0)
+  gstRate       Float      @default(0)
+  gstAmount     Float      @default(0)
+  totalAmount   Float      @default(0)
 
   // Misc
   remarks       String?

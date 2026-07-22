@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateUniqueSerial } from "@/lib/serial";
+import { computePricing } from "@/lib/pricing";
 import { Prisma, TransType } from "@prisma/client";
 
 // GET /api/receipts?q=&product=&transType=&vehicleNo=&dateFrom=&dateTo=&minNett=&maxNett=&sort=&page=&pageSize=
@@ -30,6 +31,7 @@ export async function GET(req: NextRequest) {
         { driverName: { contains: q, mode: "insensitive" } },
         { product: { contains: q, mode: "insensitive" } },
         { doNo: { contains: q, mode: "insensitive" } },
+        { poNo: { contains: q, mode: "insensitive" } },
       ];
     }
     if (product) where.product = { contains: product, mode: "insensitive" };
@@ -54,7 +56,14 @@ export async function GET(req: NextRequest) {
       where.nettWeight = nettWeight;
     }
 
-    const sortableFields = ["docketDate", "nettWeight", "serialNo", "vehicleNo", "createdAt"] as const;
+    const sortableFields = [
+      "docketDate",
+      "nettWeight",
+      "serialNo",
+      "vehicleNo",
+      "createdAt",
+      "totalAmount",
+    ] as const;
     const [rawSortField, sortDir] = sort.split(":");
     const sortField = (sortableFields as readonly string[]).includes(rawSortField)
       ? (rawSortField as (typeof sortableFields)[number])
@@ -96,6 +105,9 @@ export async function POST(req: NextRequest) {
     const firstWeight = Number(body.firstWeight);
     const secondWeight = Number(body.secondWeight);
     const nettWeight = Math.abs(firstWeight - secondWeight);
+    const unitPrice = Number(body.unitPrice) || 0;
+    const gstRate = Number(body.gstRate) || 0;
+    const { amount, gstAmount, totalAmount } = computePricing(nettWeight, unitPrice, gstRate);
 
     const receipt = await prisma.receipt.create({
       data: {
@@ -106,6 +118,7 @@ export async function POST(req: NextRequest) {
         driverName: body.driverName || null,
         driverIc: body.driverIc || null,
         doNo: body.doNo || null,
+        poNo: body.poNo || null,
         transType: (body.transType as TransType) || "PURCHASE",
         transporter: body.transporter || null,
         product: body.product,
@@ -114,6 +127,11 @@ export async function POST(req: NextRequest) {
         firstWeight,
         secondWeight,
         nettWeight,
+        unitPrice,
+        amount,
+        gstRate,
+        gstAmount,
+        totalAmount,
         remarks: body.remarks || null,
         weighingBy: body.weighingBy || null,
       },

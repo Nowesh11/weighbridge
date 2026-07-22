@@ -9,6 +9,7 @@ export interface Receipt {
   driverName: string | null;
   driverIc: string | null;
   doNo: string | null;
+  poNo: string | null;
   transType: TransType;
   transporter: string | null;
   product: string;
@@ -17,6 +18,11 @@ export interface Receipt {
   firstWeight: number;
   secondWeight: number;
   nettWeight: number;
+  unitPrice: number;
+  amount: number;
+  gstRate: number;
+  gstAmount: number;
+  totalAmount: number;
   remarks: string | null;
   weighingBy: string | null;
   createdAt: string;
@@ -29,6 +35,7 @@ export interface ReceiptFormValues {
   driverName: string;
   driverIc: string;
   doNo: string;
+  poNo: string;
   transType: TransType;
   transporter: string;
   product: string;
@@ -37,6 +44,8 @@ export interface ReceiptFormValues {
   timeOut: string; // yyyy-mm-ddTHH:mm
   firstWeight: string;
   secondWeight: string;
+  unitPrice: string;
+  gstRate: string;
   remarks: string;
   weighingBy: string;
 }

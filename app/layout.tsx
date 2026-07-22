@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--jetbrains-mono" });
 
 export const metadata: Metadata = {
-  title: "Weighbridge Ticketing — Eng Heng Steel",
+  title: "Weighbridge Ticketing — Impian Jaya Resources Sdn Bhd / Mt Smart Trading",
   description: "Key in weighbridge tickets, print slips, and search past records.",
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </span>
               <div className="leading-tight">
                 <p className="font-display text-lg font-semibold tracking-wide">Weighbridge Ticketing</p>
-                <p className="text-[11px] uppercase tracking-[0.15em] text-steel-300">Eng Heng Steel Sdn Bhd</p>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-steel-300">Impian Jaya Resources Sdn Bhd / Mt Smart Trading</p>
               </div>
             </div>
             <nav className="flex items-center gap-1 font-display text-sm uppercase tracking-wide">

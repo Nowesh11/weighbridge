@@ -10,6 +10,7 @@ const emptyForm: ReceiptFormValues = {
   driverName: "",
   driverIc: "",
   doNo: "",
+  poNo: "",
   transType: "PURCHASE",
   transporter: "",
   product: "",
@@ -18,6 +19,8 @@ const emptyForm: ReceiptFormValues = {
   timeOut: "",
   firstWeight: "",
   secondWeight: "",
+  unitPrice: "",
+  gstRate: "0",
   remarks: "",
   weighingBy: "",
 };
@@ -25,6 +28,10 @@ const emptyForm: ReceiptFormValues = {
 const inputClass =
   "w-full rounded-sm border border-line bg-white px-3 py-2 text-sm text-ink shadow-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30";
 const labelClass = "mb-1 block font-display text-[13px] font-semibold uppercase tracking-wide text-graphite-700";
+
+function round2(n: number) {
+  return Math.round((n + Number.EPSILON) * 100) / 100;
+}
 
 export default function ReceiptForm() {
   const [form, setForm] = useState<ReceiptFormValues>(emptyForm);
@@ -36,6 +43,12 @@ export default function ReceiptForm() {
     form.firstWeight && form.secondWeight
       ? Math.abs(Number(form.firstWeight) - Number(form.secondWeight))
       : null;
+
+  const unitPriceNum = Number(form.unitPrice) || 0;
+  const gstRateNum = Number(form.gstRate) || 0;
+  const amount = nett !== null ? round2(nett * unitPriceNum) : 0;
+  const gstAmount = round2(amount * (gstRateNum / 100));
+  const totalAmount = round2(amount + gstAmount);
 
   function update<K extends keyof ReceiptFormValues>(key: K, value: ReceiptFormValues[K]) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -158,6 +171,10 @@ export default function ReceiptForm() {
             <input className={inputClass} value={form.doNo} onChange={(e) => update("doNo", e.target.value)} />
           </div>
           <div>
+            <label className={labelClass}>PO No.</label>
+            <input className={inputClass} value={form.poNo} onChange={(e) => update("poNo", e.target.value)} />
+          </div>
+          <div>
             <label className={labelClass}>Driver name</label>
             <input
               className={inputClass}
@@ -261,6 +278,52 @@ export default function ReceiptForm() {
               <span className="font-mono text-lg font-semibold text-ink">
                 {nett !== null ? `${nett.toLocaleString()} Kg` : "—"}
               </span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset className="grid grid-cols-1 gap-4 border-t border-line pt-5 sm:grid-cols-2">
+          <legend className="mb-2 font-display text-sm font-semibold uppercase tracking-[0.15em] text-graphite-700">
+            Pricing &amp; GST
+          </legend>
+          <div>
+            <label className={labelClass}>Unit price (RM/Kg)</label>
+            <input
+              type="number"
+              step="any"
+              min="0"
+              className={`${inputClass} font-mono`}
+              value={form.unitPrice}
+              onChange={(e) => update("unitPrice", e.target.value)}
+              placeholder="0.000"
+            />
+          </div>
+          <div>
+            <label className={labelClass}>GST rate (%)</label>
+            <input
+              type="number"
+              step="any"
+              min="0"
+              className={`${inputClass} font-mono`}
+              value={form.gstRate}
+              onChange={(e) => update("gstRate", e.target.value)}
+              placeholder="0"
+            />
+          </div>
+          <div className="sm:col-span-2 space-y-1 rounded-sm bg-steel-100 px-4 py-3 font-mono text-sm">
+            <div className="flex items-center justify-between">
+              <span className="font-display font-semibold uppercase tracking-wide text-graphite-700">Amount (RM)</span>
+              <span className="text-ink">{amount.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-display font-semibold uppercase tracking-wide text-graphite-700">
+                GST @ {gstRateNum || 0}% (RM)
+              </span>
+              <span className="text-ink">{gstAmount.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center justify-between border-t border-line pt-1 text-base font-semibold">
+              <span className="font-display uppercase tracking-wide text-graphite-700">Total amount (RM)</span>
+              <span className="text-ink">{totalAmount.toFixed(2)}</span>
             </div>
           </div>
         </fieldset>
