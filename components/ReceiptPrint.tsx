@@ -29,15 +29,13 @@ export default function ReceiptPrint({ receipt }: { receipt: Receipt }) {
         <div className="flex items-start justify-between">
           <div className="text-left">
             <h1 className="font-display text-[16px] font-bold uppercase leading-tight tracking-wide">
-              Impian Jaya Resources Sdn Bhd
-            </h1>
-            <p className="font-display text-[12px] font-semibold uppercase leading-tight tracking-wide">
               Mt Smart Trading [PG0118686-X]
-            </p>
-            <p className="mt-[1mm] text-[8.5px] italic">&quot;Dealers in All Kind of Scrap Metals&quot;</p>
+            </h1>
+            
+          
             <p className="mt-[1mm] text-[8.5px]">Lot 71, P.T No. 1718, Taman Kemunting,</p>
             <p className="text-[8.5px]">Mukim Kulim, Daerah Kulim, Kedah.</p>
-            <p className="text-[8.5px]">Tel: 017-0081 8191</p>
+            <p className="text-[8.5px]">Tel: 012-4534703</p>
           </div>
           <div className="text-right text-[9.5px]">
             <p className="font-mono">
@@ -118,27 +116,19 @@ export default function ReceiptPrint({ receipt }: { receipt: Receipt }) {
             </tr>
           </tbody>
         </table>
+        
 
-        {/* Driver / Remarks / Weighing by */}
-        <div className="mt-[3.5mm] grid grid-cols-2 gap-x-[8mm] text-[9.5px]">
-          <div>
-            <p>Driver : {receipt.driverName || ""}</p>
-            <p className="mt-[2mm]">Remarks : {receipt.remarks || ""}</p>
-          </div>
-          <div>
-            <p>Weighing By : {receipt.weighingBy || ""}</p>
-          </div>
-        </div>
+        
 
         {/* Signatures */}
-        <div className="mt-[5mm] grid grid-cols-2 gap-x-[8mm] text-center text-[9px]">
+        <div className="mt-[20mm] grid grid-cols-2 gap-x-[8mm] text-center text-[9px] ">
           <div>
             <div className="mb-[1mm] h-[7mm]" />
-            <div className="border-t border-ink pt-[1mm]">( Clerk / Supervisor )</div>
+            <div className="border-t border-ink pt-[1mm]">( DRIVER )</div>
           </div>
           <div>
             <div className="mb-[1mm] h-[7mm]" />
-            <div className="border-t border-ink pt-[1mm]">( Lorry Driver / Received By )</div>
+            <div className="border-t border-ink pt-[1mm]">( WEIGHING BY )</div>
           </div>
         </div>
       </div>
