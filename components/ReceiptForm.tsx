@@ -112,6 +112,7 @@ export default function ReceiptForm() {
           <ReceiptPrint receipt={saved} />
         </div>
       </div>
+
     );
   }
 

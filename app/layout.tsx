@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--jetbrains-mono" });
 
 export const metadata: Metadata = {
-  title: "Weighbridge Ticketing — Eng Heng Steel",
+  title: "Weighbridge Ticketing — MT SMART",
   description: "Key in weighbridge tickets, print slips, and search past records.",
 };
 
